@@ -1,8 +1,9 @@
 package org.basis
 
 import scala.collection.mutable.Map
+import javax.servlet.http._
 
-class Basis {
+class Basis extends HttpServlet {
   val router  = new Router
   var params  = Map.empty[String, String]
   var headers = Map.empty[String, String]
@@ -16,5 +17,13 @@ class Basis {
     params = route.params
 
     route.action()
+  }
+
+  override def doGet(req: HttpServletRequest, res: HttpServletResponse) = {
+    dispatch(req.getMethod(), req.getRequestURI) match {
+      case ret if res.isInstanceOf[Int]    => "set status"
+      case ret if res.isInstanceOf[String] => "set body"
+      case _ => "set status to 404"
+    }
   }
 }
