@@ -4,32 +4,35 @@ import scala.collection.mutable.Map
 import scala.util.matching.Regex
 import org.basis.util.PatternExtractor
 
+case class Route(params: Map[String, String], action: () => Any)
+
 class Router extends PatternExtractor {
-  private case class Route(pattern: String, params: List[String], action: () => Unit)
+  private case class Pattern(url: String, params: List[String], action: () => Any)
 
-  private val routes = Map.empty[String, List[Route]]
+  private val patterns = Map.empty[String, List[Pattern]]
 
-  def register(httpMethod: String, pattern: String, action: => Unit): Unit = {
-    val routeRegex = extractRoutePattern(pattern)
-    val method = httpMethod.toUpperCase
+  def register(method: String, pattern: String, action: => Any) {
+    val httpMethod = method.toUpperCase
 
-    if (routes.get(method) == None) routes(method) = Nil
+    if (patterns.get(httpMethod) == None) {
+      patterns(httpMethod) = Nil
+    }
 
-    routes(method) ++= List(Route(routeRegex, extractParamNames(pattern), () => action))
+    patterns(httpMethod) ++= List(Pattern(extractRoutePattern(pattern), extractParamNames(pattern), () => action))
   }
 
-  def find(httpMethod: String, url: String): (Map[String, String], () => Unit) = {
+  def find(method: String, url: String): Route = {
     var mappedParams = Map.empty[String, String]
-    val method = httpMethod.toUpperCase
+    val httpMethod   = method.toUpperCase
 
-    routes(method).foreach { route =>
-      if ("/+$".r.replaceAllIn(url, "") == route.pattern) {
-        return (Map(), route.action)
+    patterns(httpMethod).foreach { route =>
+      if ("/+$".r.replaceAllIn(url, "") == route.url) {
+        return Route(Map(), route.action)
       }
     }
 
-    routes(method).toList.sortBy { route => route.params.size }.foreach { route =>
-      val pattern = new Regex(route.pattern, route.params:_*)
+    patterns(httpMethod).toList.sortBy { route => route.params.size }.foreach { route =>
+      val pattern = new Regex(route.url, route.params:_*)
       pattern.findAllIn(url).matchData.foreach { m =>
         m.groupNames.foreach { g =>
           mappedParams(g) = m.group(g)
@@ -37,12 +40,12 @@ class Router extends PatternExtractor {
       }
 
       if (route.params.size > 0 && mappedParams.size == route.params.size) {
-        return (mappedParams, route.action)
+        return Route(mappedParams, route.action)
       } else {
         mappedParams = Map()
       }
     }
 
-    (Map(), {() => })
+    Route(Map(), {() => 404})
   }
 }
