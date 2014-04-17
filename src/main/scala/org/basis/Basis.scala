@@ -20,10 +20,12 @@ class Basis extends HttpServlet {
   }
 
   override def doGet(req: HttpServletRequest, res: HttpServletResponse) = {
-    dispatch(req.getMethod(), req.getRequestURI) match {
-      case ret if res.isInstanceOf[Int]    => "set status"
-      case ret if res.isInstanceOf[String] => "set body"
+    dispatch("get", req.getRequestURI) match {
+      case ret if res.isInstanceOf[Int]    => res.getWriter().println(ret)
+      case ret if res.isInstanceOf[String] => res.getWriter().println(ret)
       case _ => "set status to 404"
     }
+
+    res.setContentType("text/plain")
   }
 }
