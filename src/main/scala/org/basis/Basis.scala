@@ -4,28 +4,80 @@ import scala.collection.mutable.Map
 import javax.servlet.http._
 
 class Basis extends HttpServlet {
-  val router  = new Router
-  var params  = Map.empty[String, String]
-  var headers = Map.empty[String, String]
+  private val router   = new Router
+  private val response = new Response
+  private var params   = Map.empty[String, String]
 
-  def get(pattern: String)(block: => Any) {
-    router.register("get", pattern, block)
+  //dsl
+  def status(code: Int) {
+    response.status = code
   }
 
+  //dsl
+  def header(name: String, value: String) {
+    response.header(name, value)
+  }
+
+  //dsl
+  def get(pattern: String)(block: => Any) {
+    router.register("GET", pattern, block)
+  }
+
+  //intern
   def dispatch(method: String, url: String): Any = {
     val route = router.find(method, url)
-    params = route.params
+    params    = route.params
 
     route.action()
   }
 
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse) = {
-    dispatch("get", req.getRequestURI) match {
-      case ret if res.isInstanceOf[Int]    => res.getWriter().println(ret)
-      case ret if res.isInstanceOf[String] => res.getWriter().println(ret)
-      case _ => "set status to 404"
+  //inern
+  def render(res: HttpServletResponse) {
+    res.setStatus(response.status)
+    response.headers.foreach { h => res.addHeader(h._1, h._2) }
+
+    res.getWriter().print(response.body)
+  }
+
+  //override
+  override def doGet(req: HttpServletRequest, res: HttpServletResponse) {
+    dispatch("GET", req.getRequestURI()) match {
+      case int: Int => {
+        response.status = int
+      }
+      case str: String => {
+        response << str
+      }
+      case xml: scala.xml.Elem => {
+        response << xml.toString
+      }
     }
 
-    res.setContentType("text/plain")
+    render(res)
+  }
+
+  //IGNORE: test app
+  get("/") {
+    status(404)
+    header("X-App", "Basis")
+
+    "Not found :P"
+  }
+
+  get("/:name") {
+    "Hello " + params("name") + "!!"
+  }
+
+  get("/200") {
+    200
+  }
+
+  get("/503") {
+    // header("something", "something")
+    200
+  }
+
+  get("/h1/:name") {
+    <h1>Hello {params("name")}.</h1>
   }
 }
