@@ -1,30 +1,20 @@
 package org.basis
 
 import scala.collection.mutable.Map
+import javax.servlet.http.HttpServletResponse
 
-class Response(var status: Int = 200, var headers: Map[String, String] = Map(), var body: String = "") {
-  def header(name: String) = headers(name)
+class Response(var status: Int = HttpServletResponse.SC_FOUND, var headers: Map[String, String] = Map(), var body: String = "") {
+  def header(name: String) = headers.getOrElse(name, "")
 
   def header(name: String, value: String) {
     headers(name) = value
   }
 
-  def <<(out: String): Response = {
-    body += out
-    this
-  }
-
-  def toMap = {
+  // debug helper
+  def toMap: Map[String, String] = {
     Map(
-      "status"  -> status,
-      "headers" -> headers,
-      "body"    -> body
+      "headers" -> headers.toString,
+      "status"  -> status.toString
     )
-  }
-}
-
-object Response {
-  def apply(status: Int, headers: Map[String, String], content: String) = {
-    new Response(status, headers, content)
   }
 }

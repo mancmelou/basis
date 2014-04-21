@@ -1,8 +1,27 @@
 package org.basis
 
-/**
- * Created by vladimir on 4/20/14.
- */
-trait TestApp {
+class TestApp extends Basis {
+  get("/") {
+    header("X-App", "Basis")
+    header("Content-type", "text/html")
 
+    <html>
+      <title>Welcome</title>
+      <body>
+        <h1>Hello stranger!</h1>
+      </body>
+    </html>
+  }
+
+  get("/:name") {
+    "Hello " + param("name") + "!!"
+  }
+
+  get("/debug") {
+    header("Content-type", "text/plain")
+
+    "Router: "   + router.toString   + "\n\n" +
+    "Response: " + response.toString + " " + response.get.toMap + "\n\n" +
+    "Request: "  + request.toString  + " " + request.get.toMap + "\n\n"
+  }
 }

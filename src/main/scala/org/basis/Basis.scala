@@ -1,104 +1,82 @@
 package org.basis
 
-import scala.collection.mutable.Map
 import javax.servlet.http._
 
 class Basis extends HttpServlet {
-  private val router   = new Router
-  private var response = new Response
-  private var params   = Map.empty[String, String]
+  protected val router = new Router // change this to private
+
+  protected var response: Option[Response] = None // to private
+  protected var request : Option[Request]  = None // to private
 
   //dsl
   def status(code: Int) {
-    response.status = code
+    response.get.status = code
   }
 
-  //dsl
+  // dsl
+  // sets header value
   def header(name: String, value: String) {
-    response.header(name, value)
+    response.get.header(name, value)
   }
 
-  //dsl
+  // dsl
+  // gets a header value
+  def header(name: String) {
+    request.get.header(name)
+  }
+
+  // dsl
+  // define GET route
   def get(pattern: String)(block: => Any) {
     router.register("GET", pattern, block)
   }
 
-  //intern
-  def dispatch(method: String, url: String): Any = {
-    val route = router.find(method, url)
+  // dsl
+  // take param from GET, POST, COOKIE, Named route
+  def param(name: String) = request.get.param(name)
 
-    params   = route.params
-    response = new Response
+  //intern
+  def dispatch(req: HttpServletRequest): Any = {
+    val root = "^" + req.getSession().getServletContext().getContextPath()
+    val uri  = root.r.replaceAllIn(req.getRequestURI(), "")
+
+    val route = router.find(req.getMethod(), uri)
+
+    response = Some(new Response)
+    request  = Some(new Request(req, route.params))
 
     route.action()
   }
 
   //intern
   def render(res: HttpServletResponse) {
-    res.setStatus(response.status)
-    response.headers.foreach { h => res.addHeader(h._1, h._2) }
+    res.setStatus(response.get.status)
+    response.get.headers.foreach { h => res.addHeader(h._1, h._2) }
 
-    res.getWriter().println(response.body)
+    res.getWriter().println(response.get.body)
   }
 
-  //override
+  //override servlet
   override def doGet(req: HttpServletRequest, res: HttpServletResponse) {
-    dispatch("GET", req.getRequestURI()) match {
+    dispatch(req) match {
       case n: Int => {
-        response.status = n
+        response.get.status = n
       }
       case str: String => {
-        response.body = str
+        response.get.body = str
       }
       case xml: scala.xml.Elem => {
-        response.body = xml.toString
+        response.get.body = xml.toString
       }
       case collection: Iterable[Any] => {
-        response.body = collection.mkString("")
+        response.get.body = collection.mkString("")
       }
       case _ => {
-        response.status = 404
-        response.body   = "Basis cannot find the route"
+        response.get.status = HttpServletResponse.SC_NOT_FOUND
+        response.get.body   = "Route not found! " + req.getRequestURI()
       }
     }
 
     render(res)
-  }
-
-  //IGNORE: test app
-  get("/") {
-    status(200)
-
-    header("X-App", "Basis")
-    header("Content-type", "text/html")
-
-    <html>
-      <title>Welcome</title>
-      <body>
-        <h1>Hello stranger!</h1>
-
-        <h3>DEBUG INFO</h3>
-        <p>Router:   {router.toString}</p>
-        <p>Response: {response.toString}</p>
-        <p>Params:   {params.toString}</p>
-      </body>
-    </html>
-  }
-
-  get("/:name") {
-    "Hello " + params("name") + "!!"
-  }
-
-  get("/200") {
-    200
-  }
-
-  get("/503") {
-    header("something", "something")
-    503
-  }
-
-  get("/h1/:name") {
-    <h1>Hello {params("name")}.</h1>
   }
 }
