@@ -3,7 +3,7 @@ package org.basis
 import scala.collection.mutable.Map
 import javax.servlet.http.HttpServletResponse
 
-class Response(var status: Int = HttpServletResponse.SC_FOUND, var headers: Map[String, String] = Map(), var body: String = "") {
+class Response(var status: Int = HttpServletResponse.SC_OK, var headers: Map[String, String] = Map(), var body: String = "") {
   def header(name: String) = headers.getOrElse(name, "")
 
   def header(name: String, value: String) {
