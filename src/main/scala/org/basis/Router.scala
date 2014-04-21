@@ -9,8 +9,18 @@ case class Route(params: Map[String, String], action: () => Any)
 class Router extends PatternExtractor {
   private case class Pattern(url: String, params: List[String], action: () => Any)
 
+  /**
+   * Map of patterns registered by the application
+   */
   private val patterns = Map.empty[String, List[Pattern]]
 
+  /**
+   * Registers a new route handler
+   *
+   * @param method    Http method
+   * @param pattern   Request URI pattern
+   * @param action    Block to execute
+   */
   def register(method: String, pattern: String, action: => Any) {
     val httpMethod = method.toUpperCase
 
@@ -21,6 +31,13 @@ class Router extends PatternExtractor {
     patterns(httpMethod) ++= List(Pattern(extractRoutePattern(pattern), extractParamNames(pattern), () => action))
   }
 
+  /**
+   * Finds route for a given method and URI
+   *
+   * @param method  Http method
+   * @param url     Request URI
+   * @return        {@link Route} object
+   */
   def find(method: String, url: String): Route = {
     var mappedParams = Map.empty[String, String]
     val httpMethod   = method.toUpperCase
