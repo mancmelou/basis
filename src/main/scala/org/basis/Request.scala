@@ -29,13 +29,10 @@ class Request(val req: HttpServletRequest, val routeParams: Map[String, String])
   def toMap: Map[String, String] = {
     Map(
       "headers" -> _headers.toString,
-      "params"  -> _params.toString,
-      "EXTRA"   -> req.getSession().getServletContext().getContextPath()
+      "params"  -> _params.toString
     )
   }
 
   mapRequestHeaders()
   mapRequestParams()
 }
-
-// servlet root req.getSession().getServletContext().getContextPath()
