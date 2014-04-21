@@ -8,7 +8,7 @@ class TestApp extends Basis {
     <html>
       <title>Welcome</title>
       <body>
-        <h1>Hello stranger!</h1>
+        <h1>It works!</h1>
       </body>
     </html>
   }
