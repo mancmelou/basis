@@ -49,15 +49,7 @@ class Basis extends HttpServlet {
   }
 
   //intern
-  def render(res: HttpServletResponse) {
-    res.setStatus(response.get.status)
-    response.get.headers.foreach { h => res.addHeader(h._1, h._2) }
-
-    res.getWriter().println(response.get.body)
-  }
-
-  //override servlet
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse) {
+  def process(req: HttpServletRequest, res: HttpServletResponse) {
     dispatch(req) match {
       case n: Int => {
         response.get.status = n
@@ -78,5 +70,23 @@ class Basis extends HttpServlet {
     }
 
     render(res)
+  }
+
+  //intern
+  def render(res: HttpServletResponse) {
+    res.setStatus(response.get.status)
+    response.get.headers.foreach { case (key, value) => res.addHeader(key, value) }
+
+    res.getWriter().println(response.get.body)
+  }
+
+  //override servlet
+  override def doGet(req: HttpServletRequest, res: HttpServletResponse) {
+    process(req, res)
+  }
+
+  //override servlet
+  override def doPost(req: HttpServletRequest, res: HttpServletResponse) {
+    process(req, res)
   }
 }
