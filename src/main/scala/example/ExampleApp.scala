@@ -16,7 +16,6 @@ class ExampleApp extends Basis {
   get("/debug") {
     header("Content-type", "text/plain")
 
-
     "Router: "   + router.toString   + "\n\n" +
     "Response: " + response.toString + " " + response.get.toMap + "\n\n" +
     "Request: "  + request.toString  + " " + request.get.toMap + "\n\n"

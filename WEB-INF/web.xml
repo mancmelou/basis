@@ -4,11 +4,11 @@
 <web-app>
     <display-name>Test App</display-name>
     <servlet>
-        <servlet-name>Test App</servlet-name>
-        <servlet-class>org.basis.TestApp</servlet-class>
+        <servlet-name>Example App</servlet-name>
+        <servlet-class>org.basis.ExampleApp</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Test App</servlet-name>
+        <servlet-name>Example App</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
