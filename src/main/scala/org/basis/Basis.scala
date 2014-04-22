@@ -47,6 +47,42 @@ class Basis extends HttpServlet {
     request.get.header(name)
   }
 
+  // new
+  def html(code: Any): String = {
+    header("Content-type", "text/html")
+
+    code match {
+      case xml: scala.xml.Elem => xml.toString
+      case col: Iterable[Any]  => col.mkString("")
+      case _ => code.toString
+    }
+  }
+
+  // new
+  def text(code: Any): String = {
+    header("Content-type", "text/plain")
+
+    code match {
+      case xml: scala.xml.Elem => xml.toString
+      case col: Iterable[Any]  => col.mkString("")
+      case _ => code.toString
+    }
+  }
+
+  // new
+  def tsv(code: Any): String = {
+    header("Content-type", "text/tsv")
+
+    code match {
+      case xml: scala.xml.Elem => xml.toString
+      case col: Map[Any, Any]  => col.view.map { case (k, v) => k + "\t" + v }.mkString("", "\n", "")
+      case _ => code.toString
+    }
+  }
+
+  // new
+  def flush(code: Any) = 0
+
   /**
    * Gets request parameter value. DSL to be used withing `post` or `get`.
    *
