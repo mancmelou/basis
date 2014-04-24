@@ -3,6 +3,7 @@ package org.test
 import org.scalatest.FunSpec
 import org.basis.{Request, Response, Basis}
 import org.mockito.Mockito._
+import org.mockito.Matchers._
 
 class BasisSpec extends FunSpec {
   describe("Basis") {
@@ -10,11 +11,11 @@ class BasisSpec extends FunSpec {
 
     describe("get") {
       it("defines / route") {
-        when(basis.router.register _).thenReturn(())
+        //basis.router.register(any[String], any[String], any[() => Any])
+        val spy: Basis = spy(basis)
+        verify(spy, times(1)).router.register("GET", "/", any[() => Any])
 
-        verify(basis).get("/") {
-          "OK"
-        }
+        basis.get("/")({"OK"})
       }
 
       it("defines /home route") {
