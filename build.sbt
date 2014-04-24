@@ -6,7 +6,7 @@ libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.1.0" % "test"
 
 libraryDependencies += "javax.servlet" % "servlet-api" % "2.5" % "provided"
 
-libraryDependencies += "org.easymock" % "easymock" % "3.1"
+libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5"
 
 lazy val tomcat = taskKey[Unit]("Deploys app to local web server")
 
