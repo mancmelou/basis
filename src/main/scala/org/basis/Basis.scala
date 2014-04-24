@@ -6,7 +6,7 @@ class Basis extends HttpServlet {
   /**
    * Router object {@link Router}
    */
-  val router = new Router
+  private val router = new Router
 
   /**
    * Response option object {@link Router}
