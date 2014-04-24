@@ -84,6 +84,13 @@ class Response(private val _res: HttpServletResponse) {
   def servlet: HttpServletResponse = _res
 
   /**
+   * Handle to the current response's HttpServletResponse object
+   *
+   * @return A HttpServletResponse object
+   */
+  def getHttpServletResponse: HttpServletResponse = _res
+
+  /**
    * Returns map of the fields stored in this object
    *
    * @return Mapping

@@ -4,7 +4,7 @@ import scala.collection.mutable.Map
 import javax.servlet.http.HttpServletRequest
 import collection.JavaConversions.enumerationAsScalaIterator
 
-class Request(private val req: HttpServletRequest, private val routeParams: Map[String, String]) {
+class Request(private val _req: HttpServletRequest, private val _routeParams: Map[String, String]) {
   /**
    * Request headers container
    */
@@ -19,8 +19,8 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
    * Maps servlet request headers
    */
   private def mapRequestHeaders(): Unit = {
-    for(name <- req.getHeaderNames()) {
-      _headers(name.asInstanceOf[String]) = req.getHeader(name.asInstanceOf[String])
+    for(name <- _req.getHeaderNames()) {
+      _headers(name.asInstanceOf[String]) = _req.getHeader(name.asInstanceOf[String])
     }
   }
 
@@ -28,11 +28,11 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
    * Maps servlet request params
    */
   private def mapRequestParams(): Unit = {
-    for(name <- req.getParameterNames()) {
-      _params(name.asInstanceOf[String]) = req.getParameter(name.asInstanceOf[String])
+    for(name <- _req.getParameterNames()) {
+      _params(name.asInstanceOf[String]) = _req.getParameter(name.asInstanceOf[String])
     }
 
-    _params ++= routeParams
+    _params ++= _routeParams
   }
 
   /**
@@ -56,7 +56,14 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
    *
    * @return
    */
-  def servlet = req
+  def servlet = _req
+
+  /**
+   * Returns current request's {@link HttpServletRequest} object
+   *
+   * @return
+   */
+  def getHttpServletRequest = _req
 
   /**
    * Returns map of the fields stored in this object
