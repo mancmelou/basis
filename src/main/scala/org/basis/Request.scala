@@ -18,7 +18,7 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
   /**
    * Maps servlet request headers
    */
-  private def mapRequestHeaders() {
+  private def mapRequestHeaders(): Unit = {
     for(name <- req.getHeaderNames()) {
       _headers(name.asInstanceOf[String]) = req.getHeader(name.asInstanceOf[String])
     }
@@ -27,7 +27,7 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
   /**
    * Maps servlet request params
    */
-  private def mapRequestParams() {
+  private def mapRequestParams(): Unit = {
     for(name <- req.getParameterNames()) {
       _params(name.asInstanceOf[String]) = req.getParameter(name.asInstanceOf[String])
     }
@@ -41,7 +41,7 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
    * @param name  Header name
    * @return      Header value
    */
-  def header(name: String) = _headers.getOrElse(name, "")
+  def header(name: String): String = _headers.getOrElse(name, "")
 
   /**
    * Returns the specified param's value
@@ -49,7 +49,7 @@ class Request(private val req: HttpServletRequest, private val routeParams: Map[
    * @param name  Param name
    * @return      Param value
    */
-  def param(name: String)  = _params.getOrElse(name, "")
+  def param(name: String): String = _params.getOrElse(name, "")
 
   /**
    * Returns current request's {@link HttpServletRequest} object

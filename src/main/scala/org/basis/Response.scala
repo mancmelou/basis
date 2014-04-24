@@ -7,7 +7,7 @@ class Response(private val _res: HttpServletResponse) {
   /**
    * Response status code e.g. 200, 404, 503 ...
    */
-  private var _status  = HttpServletResponse.SC_OK
+  private var _status = HttpServletResponse.SC_OK
 
   /**
    * Response headers mapping
@@ -24,14 +24,14 @@ class Response(private val _res: HttpServletResponse) {
    *
    * @return Status code
    */
-  def status = _status
+  def status: Int = _status
 
   /**
    * Sets current response's status code
    *
    * @param n Response code
    */
-  def status_=(n: Int) {
+  def status_=(n: Int): Unit = {
     _status = n
   }
 
@@ -41,7 +41,7 @@ class Response(private val _res: HttpServletResponse) {
    * @param name  Header's name
    * @return      header's value
    */
-  def header(name: String) = _headers.getOrElse(name, "")
+  def header(name: String): String = _headers.getOrElse(name, "")
 
   /**
    * Sets current response's header value
@@ -49,7 +49,7 @@ class Response(private val _res: HttpServletResponse) {
    * @param name   Header's name
    * @param value  Header's value
    */
-  def header(name: String, value: String) {
+  def header(name: String, value: String): Unit = {
     _headers(name) = value
   }
 
@@ -58,21 +58,21 @@ class Response(private val _res: HttpServletResponse) {
    *
    * @return
    */
-  def headers = _headers
+  def headers: Map[String, String] = _headers
 
   /**
    * Gets current response's body
    *
    * @return
    */
-  def body = _body
+  def body: String = _body
 
   /**
    * Sets current response's body
    *
    * @param str  Response body
    */
-  def body_=(str: String) {
+  def body_=(str: String): Unit = {
     _body = str
   }
 
@@ -81,7 +81,7 @@ class Response(private val _res: HttpServletResponse) {
    *
    * @return A HttpServletResponse object
    */
-  def servlet = _res
+  def servlet: HttpServletResponse = _res
 
   /**
    * Returns map of the fields stored in this object

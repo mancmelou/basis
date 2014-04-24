@@ -34,7 +34,7 @@ class Router extends PatternExtractor {
    * @param pattern   Request URI pattern
    * @param action    Block to execute
    */
-  def register(method: String, pattern: String, action: => Any) {
+  def register(method: String, pattern: String, action: => Any): Unit = {
     val httpMethod = method.toUpperCase
 
     if (patterns.get(httpMethod) == None) {

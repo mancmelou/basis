@@ -23,7 +23,7 @@ class Basis extends HttpServlet {
    *
    * @param code  Http response code
    */
-  def status(code: Int) {
+  def status(code: Int): Unit = {
     response.get.status = code
   }
 
@@ -33,7 +33,7 @@ class Basis extends HttpServlet {
    * @param name   Header name
    * @param value  Header value
    */
-  def header(name: String, value: String) {
+  def header(name: String, value: String): Unit = {
     response.get.header(name, value)
   }
 
@@ -53,7 +53,7 @@ class Basis extends HttpServlet {
    * @param name  Parameter name
    * @return      Parameter value
    */
-  def param(name: String) = request.get.param(name)
+  def param(name: String): String = request.get.param(name)
 
   /**
    * Returns html to be rendered. A side effect is that the "Content-type" response
@@ -96,7 +96,7 @@ class Basis extends HttpServlet {
    * @param block    Route handler block
    * @return         Returns the value returned from the block
    */
-  def get(pattern: String)(block: => Any) {
+  def get(pattern: String)(block: => Any): Unit = {
     router.register("GET", pattern, block)
   }
 
@@ -107,7 +107,7 @@ class Basis extends HttpServlet {
    * @param block    Route handler block
    * @return         Returns the value returned from the block
    */
-  def post(pattern: String)(block: => Any) {
+  def post(pattern: String)(block: => Any): Unit = {
     router.register("POST", pattern, block)
   }
 
@@ -117,7 +117,7 @@ class Basis extends HttpServlet {
    * @param req A HttpServletRequest object
    * @param res A HttpServletResponse object
    */
-  def process(req: HttpServletRequest, res: HttpServletResponse) {
+  def process(req: HttpServletRequest, res: HttpServletResponse): Unit = {
     dispatch(req, res) match {
       case n: Int => {
         response.get.status = n
@@ -164,7 +164,7 @@ class Basis extends HttpServlet {
    *
    * @param res
    */
-  def render(res: HttpServletResponse) {
+  def render(res: HttpServletResponse): Unit = {
     res.setStatus(response.get.status)
     response.get.headers.foreach { case (key, value) => res.addHeader(key, value) }
 
@@ -177,7 +177,7 @@ class Basis extends HttpServlet {
    * @param req
    * @param res
    */
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse) {
+  override def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit = {
     process(req, res)
   }
 
@@ -187,7 +187,7 @@ class Basis extends HttpServlet {
    * @param req
    * @param res
    */
-  override def doPost(req: HttpServletRequest, res: HttpServletResponse) {
+  override def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit = {
     process(req, res)
   }
 }
