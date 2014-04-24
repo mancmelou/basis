@@ -1,24 +1,20 @@
 package org.test
 
 import org.scalatest.FunSpec
-import org.basis.Basis
-import javax.servlet.http._
-import org.easymock.EasyMock._
+import org.basis.{Request, Response, Basis}
+import org.mockito.Mockito._
 
 class BasisSpec extends FunSpec {
   describe("Basis") {
-    val basis = new Basis
-
-    val req = createMock(classOf[HttpServletRequest])
-    val res = createMock(classOf[HttpServletResponse])
+    val basis = mock(classOf[Basis])
 
     describe("get") {
       it("defines / route") {
-        basis.get("/") {
+        when(basis.router.register _).thenReturn(())
+
+        verify(basis).get("/") {
           "OK"
         }
-
-        assert(basis.dispatch(req, res) == "OK")
       }
 
       it("defines /home route") {
@@ -43,6 +39,14 @@ class BasisSpec extends FunSpec {
         basis.get("/:controller/:action/:id") {
           "Calling " + basis.param("controller") +
             "." + basis.param("action") + "(" + basis.param("id") + ")"
+        }
+      }
+    }
+
+    describe("post") {
+      it("defines a route") {
+        basis.post("/") {
+          "OK"
         }
       }
     }
