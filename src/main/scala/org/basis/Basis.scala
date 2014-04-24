@@ -6,7 +6,7 @@ class Basis extends HttpServlet {
   /**
    * Router object {@link Router}
    */
-  protected val router = new Router
+  val router = new Router
 
   /**
    * Response option object {@link Router}
@@ -47,42 +47,6 @@ class Basis extends HttpServlet {
     request.get.header(name)
   }
 
-  // new
-  def html(code: Any): String = {
-    header("Content-type", "text/html")
-
-    code match {
-      case xml: scala.xml.Elem => xml.toString
-      case col: Iterable[Any]  => col.mkString("")
-      case _ => code.toString
-    }
-  }
-
-  // new
-  def text(code: Any): String = {
-    header("Content-type", "text/plain")
-
-    code match {
-      case xml: scala.xml.Elem => xml.toString
-      case col: Iterable[Any]  => col.mkString("")
-      case _ => code.toString
-    }
-  }
-
-  // new
-  def tsv(code: Any): String = {
-    header("Content-type", "text/tsv")
-
-    code match {
-      case xml: scala.xml.Elem => xml.toString
-      case col: Map[Any, Any]  => col.view.map { case (k, v) => k + "\t" + v }.mkString("", "\n", "")
-      case _ => code.toString
-    }
-  }
-
-  // new
-  def flush(code: Any) = 0
-
   /**
    * Gets request parameter value. DSL to be used withing `post` or `get`.
    *
@@ -90,6 +54,40 @@ class Basis extends HttpServlet {
    * @return      Parameter value
    */
   def param(name: String) = request.get.param(name)
+
+  /**
+   * Returns html to be rendered. A side effect is that the "Content-type" response
+   * header is set to "text/html"
+   *
+   * @param block   Any
+   * @return        String
+   */
+  def html(block: Any): String = {
+    header("Content-type", "text/html")
+
+    block match {
+      case c: Iterable[Any]     => c.mkString("")
+      case f: Function0[String] => f()
+      case _ => block.toString
+    }
+  }
+
+  /**
+   * Returns text to be rendered. A side effect is that the "Content-type" response
+   * header is set to "text/plain"
+   *
+   * @param block   Any
+   * @return        String
+    */
+  def text(block: Any): String = {
+    header("Content-type", "text/plain")
+
+    block match {
+      case c: Iterable[Any]     => c.mkString("")
+      case f: Function0[String] => f()
+      case _ => block.toString
+    }
+  }
 
   /**
    * Defines a GET request handler.
@@ -170,7 +168,7 @@ class Basis extends HttpServlet {
     res.setStatus(response.get.status)
     response.get.headers.foreach { case (key, value) => res.addHeader(key, value) }
 
-    res.getWriter().println(response.get.body)
+    res.getWriter().print(response.get.body)
   }
 
   /**
