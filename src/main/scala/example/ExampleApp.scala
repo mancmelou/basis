@@ -25,18 +25,15 @@ class ExampleApp extends Basis {
     header("Content-type", "text/html")
 
     html {
-      <form action="" method="post">
-        <input type="text" name="name" />
+      <form action="/form" method="post">
+        <span>Your query:</span>
+        <input type="text" name="query" />
         <input type="submit" value="Go!" />
       </form>
     }
   }
 
   post("/form") {
-    // async {
-    //  "Ping server" + "Some long calc"
-    // }
-
-    "HELLO " + param("name") + "!"
+    "You submitted " + param("query") + "!"
   }
 }
