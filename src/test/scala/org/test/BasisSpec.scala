@@ -1,54 +1,69 @@
 package org.test
 
 import org.scalatest.FunSpec
-import org.basis.{Request, Response, Basis}
-import org.mockito.Mockito._
-import org.mockito.Matchers._
+import com.meterware.servletunit._
+import com.meterware.httpunit._
 
 class BasisSpec extends FunSpec {
+  val runner = new ServletRunner
+  val client = runner.newClient()
+
+  runner.registerServlet("", "org.test.servlet.TestApp")
+
   describe("Basis") {
-    val basis = mock(classOf[Basis])
-
     describe("get") {
-      it("defines / route") {
-        //basis.router.register(any[String], any[String], any[() => Any])
-        val spy: Basis = spy(basis)
-        verify(spy, times(1)).router.register("GET", "/", any[() => Any])
+      it("runs / route") {
+        val request  = new GetMethodWebRequest("http://localhost/")
+        val response = client.getResponse(request)
 
-        basis.get("/")({"OK"})
+        assert(response.getResponseCode() == 200)
+        assert(response.getText() == "ROOT")
       }
 
-      it("defines /home route") {
-        basis.get("/home") {
-          200
-        }
+      it("runs /home route") {
+        val request  = new GetMethodWebRequest("http://localhost/home")
+        val response = client.getResponse(request)
+
+        assert(response.getResponseCode() == 200)
+        assert(response.getText() == "")
       }
 
-      it("defines /about/ route") {
-        basis.get("/about/") {
-          203
-        }
+      it("runs /about/ route") {
+        val request  = new GetMethodWebRequest("http://localhost/about")
+        val response = client.getResponse(request)
+
+        assert(response.getResponseCode() == 203)
+        assert(response.getText() == "")
       }
 
-      it("defines /:name route") {
-        basis.get("/:name") {
-          "Hello " + basis.param("name")
-        }
+      it("runs /:name route") {
+        val request  = new GetMethodWebRequest("http://localhost/Scala")
+        val response = client.getResponse(request)
+
+        assert(response.getResponseCode() == 200)
+        assert(response.getText() == "Hello Scala")
       }
 
-      it("defines /:controller/:action/:id route") {
-        basis.get("/:controller/:action/:id") {
-          "Calling " + basis.param("controller") +
-            "." + basis.param("action") + "(" + basis.param("id") + ")"
+      it("runs /:controller/:action/:id route") {
+        val request  = new GetMethodWebRequest("http://localhost/ctrl/act/11")
+        val response = client.getResponse(request)
+
+        assert(response.getResponseCode() == 200)
+        assert(response.getText() == "Calling ctrl.act(11)")
+      }
+
+      it("runs find a route") {
+        intercept[HttpNotFoundException] {
+          val request = new GetMethodWebRequest("http://localhost/foo/bar")
+          client.getResponse(request)
         }
       }
     }
 
     describe("post") {
-      it("defines a route") {
-        basis.post("/") {
-          "OK"
-        }
+      it("runs a POST route") {
+        val request = new PostMethodWebRequest("http://localhost/")
+        assert(client.getResponse(request).getText() == "<h1>POST OK</h1>")
       }
     }
   }
