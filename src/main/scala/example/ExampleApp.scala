@@ -1,11 +1,23 @@
 package org.basis
 
 import java.util.Calendar
+import scala.concurrent._
+import ExecutionContext.Implicits.global
+import scala.sys.process._
+import java.io._
 
 class ExampleApp extends Basis {
   get("/") {
     header("X-App", "Basis")
     header("Content-type", "text/html")
+
+    future {
+      Thread.sleep(5000)
+
+      val pw = new PrintWriter(new File("/tmp/a" ))
+      pw.write(".")
+      pw.close
+    }
 
     <h1>It works!</h1>
     <p><a href="/debug">See debug info</a></p>
