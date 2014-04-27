@@ -8,7 +8,11 @@ libraryDependencies += "javax.servlet" % "servlet-api" % "2.5" % "provided"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5"
 
-lazy val tomcat = taskKey[Unit]("Deploys app to local web server")
+libraryDependencies += "httpunit" % "httpunit" % "1.7"
+
+libraryDependencies += "commons-io" % "commons-io" % "2.4"
+
+lazy val tomcat = taskKey[Unit]("Deploys servlet to local web server")
 
 tomcat := {
   import scala.sys.process._
