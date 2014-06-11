@@ -1,8 +1,8 @@
 package org.test.servlet
 
-import org.basis._
+import org.scarlet._
 
-class TestApp extends Basis {
+class TestApp extends Application {
   get("/") {
     "ROOT"
   }

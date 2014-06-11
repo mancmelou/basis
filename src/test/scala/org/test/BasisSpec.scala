@@ -4,13 +4,13 @@ import org.scalatest.FunSpec
 import com.meterware.servletunit._
 import com.meterware.httpunit._
 
-class BasisSpec extends FunSpec {
+class ApplicationSpec extends FunSpec {
   val runner = new ServletRunner
   val client = runner.newClient()
 
   runner.registerServlet("", "org.test.servlet.TestApp")
 
-  describe("Basis") {
+  describe("Application") {
     describe("get") {
       it("runs / route") {
         val request  = new GetMethodWebRequest("http://localhost/")

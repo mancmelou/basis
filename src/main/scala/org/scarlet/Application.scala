@@ -1,4 +1,4 @@
-package org.basis
+package org.scarlet
 
 import javax.servlet.http._
 

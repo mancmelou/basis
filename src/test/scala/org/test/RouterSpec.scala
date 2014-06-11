@@ -1,7 +1,7 @@
 package org.test
 
 import org.scalatest.FunSpec
-import org.basis.Router
+import org.scarlet.Router
 
 class RouterSpec extends FunSpec {
   describe("Router") {

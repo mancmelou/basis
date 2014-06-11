@@ -5,7 +5,7 @@
     <display-name>Test App</display-name>
     <servlet>
         <servlet-name>Example App</servlet-name>
-        <servlet-class>org.basis.ExampleApp</servlet-class>
+        <servlet-class>org.scarlet.ExampleApp</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Example App</servlet-name>

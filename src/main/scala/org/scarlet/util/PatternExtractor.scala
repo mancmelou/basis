@@ -1,4 +1,4 @@
-package org.basis.util
+package org.scarlet.util
 
 trait PatternExtractor {
   /**
