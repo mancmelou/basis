@@ -2,7 +2,7 @@ package org.basis
 
 import javax.servlet.http._
 
-class Basis extends HttpServlet {
+class Application extends HttpServlet {
   /**
    * Router object {@link Router}
    */

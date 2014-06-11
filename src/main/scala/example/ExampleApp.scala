@@ -2,7 +2,7 @@ package org.basis
 
 import java.util.Calendar
 
-class ExampleApp extends Basis {
+class ExampleApp extends Application {
   get("/") {
     header("X-App", "Basis")
     header("Content-type", "text/html")
