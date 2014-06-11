@@ -1,4 +1,4 @@
-package org.scarlet
+package com.mancmelou.scarlet
 
 import java.util.Calendar
 

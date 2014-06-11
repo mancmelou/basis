@@ -1,8 +1,8 @@
-package org.scarlet
+package com.mancmelou.scarlet
 
 import scala.collection.mutable.Map
 import scala.util.matching.Regex
-import org.scarlet.util.PatternExtractor
+import com.mancmelou.scarlet.util.PatternExtractor
 
 class Router extends PatternExtractor {
   /**

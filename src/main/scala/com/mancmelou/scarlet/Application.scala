@@ -1,4 +1,4 @@
-package org.scarlet
+package com.mancmelou.scarlet
 
 import javax.servlet.http._
 

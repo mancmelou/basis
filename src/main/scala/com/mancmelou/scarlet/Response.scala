@@ -1,4 +1,4 @@
-package org.scarlet
+package com.mancmelou.scarlet
 
 import scala.collection.mutable.Map
 import javax.servlet.http.HttpServletResponse

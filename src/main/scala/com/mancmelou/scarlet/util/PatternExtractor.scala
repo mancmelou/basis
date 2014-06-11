@@ -1,4 +1,4 @@
-package org.scarlet.util
+package com.mancmelou.scarlet.util
 
 trait PatternExtractor {
   /**
