@@ -85,6 +85,7 @@ class Application extends Servlet {
     block match {
       case c: Iterable[Any]     => c.mkString("")
       case f: Function0[String] => f()
+      // TODO: case f: (Unit => String) => f()
       case _ => block.toString
     }
   }
