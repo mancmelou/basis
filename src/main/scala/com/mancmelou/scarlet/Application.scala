@@ -2,7 +2,7 @@ package com.mancmelou.scarlet
 
 import javax.servlet.http._
 
-class Application extends HttpServlet {
+class Application extends Servlet {
   /**
    * Router object {@link Router}
    */
