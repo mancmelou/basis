@@ -42,4 +42,8 @@ trait Servlet extends HttpServlet {
    * @param res
    */
   protected def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit
+
+  /**
+   * TODO: Add other http method overrides
+   */
 }
