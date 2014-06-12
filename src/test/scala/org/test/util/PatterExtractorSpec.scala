@@ -1,7 +1,7 @@
 package org.test.util
 
 import org.scalatest.FunSpec
-import org.scarlet.util.PatternExtractor
+import com.mancmelou.scarlet.util.PatternExtractor
 
 class PatterExtractorSpec extends FunSpec with PatternExtractor {
   describe("PatternExtractor") {
