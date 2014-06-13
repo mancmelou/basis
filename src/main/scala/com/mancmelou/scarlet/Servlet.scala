@@ -1,6 +1,6 @@
 package com.mancmelou.scarlet
 
-import javax.servlet.http.{HttpServlet, HttpServletResponse, HttpServletRequest}
+import javax.servlet.http.{HttpServletResponse, HttpServletRequest, HttpServlet}
 
 trait Servlet extends HttpServlet {
   /**
@@ -28,22 +28,18 @@ trait Servlet extends HttpServlet {
   def render(res: HttpServletResponse): Unit
 
   /**
-   * HttpServlet GET request handler override
+   * Servlet GET request handler override
    *
    * @param req
    * @param res
    */
-  protected def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit
+  override def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
 
   /**
-   * HttpServlet POST request handler override
+   * Servlet POST request handler override
    *
    * @param req
    * @param res
    */
-  protected def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit
-
-  /**
-   * TODO: Add other http method overrides
-   */
+  override def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
 }
