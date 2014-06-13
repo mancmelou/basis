@@ -1,6 +1,7 @@
 package com.mancmelou.scarlet
 
 import javax.servlet.http._
+import scala.Some
 
 class Application extends Servlet {
   /**
@@ -85,7 +86,6 @@ class Application extends Servlet {
     block match {
       case c: Iterable[Any]     => c.mkString("")
       case f: Function0[String] => f()
-      // TODO: case f: (Unit => String) => f()
       case _ => block.toString
     }
   }
@@ -133,7 +133,7 @@ class Application extends Servlet {
         response.get.body = collection.mkString("")
       }
       case _ => {
-        response.get.status = HttpServletResponse.SC_NOT_FOUND
+        response.get.status = 404
         response.get.body   = "Route not found! " + req.getRequestURI()
       }
     }
@@ -170,25 +170,5 @@ class Application extends Servlet {
     response.get.headers.foreach { case (key, value) => res.addHeader(key, value) }
 
     res.getWriter().print(response.get.body)
-  }
-
-  /**
-   * Servlet GET request handler override
-   *
-   * @param req
-   * @param res
-   */
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit = {
-    process(req, res)
-  }
-
-  /**
-   * Servlet POST request handler override
-   *
-   * @param req
-   * @param res
-   */
-  override def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit = {
-    process(req, res)
   }
 }
