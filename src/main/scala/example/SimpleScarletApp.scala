@@ -1,11 +1,28 @@
+/**
+ * Your project namespace
+ */
 package org.example
 
+/**
+ * Import the Application class and you're ready to go!
+ */
 import com.mancmelou.scarlet.Application
+
+/**
+ * Also, import any other classes you want to use in your project
+ */
 import java.util.Calendar
 
-class ExampleApp extends Application {
+/**
+ * Create a new class that extends Application
+ */
+class SimpleScarletApp extends Application {
+  /**
+   * This will register "GET /" route.
+   * Every GET request to the "/" URI will
+   * be routed to this block.
+   */
   get("/") {
-    header("X-App", "Basis")
     header("Content-type", "text/html")
 
     <h1>It works!</h1>
@@ -15,8 +32,9 @@ class ExampleApp extends Application {
   }
 
   get("/form") {
-    header("Content-type", "text/html")
-
+    /**
+     * `html` block will force text/html content type
+     */
     html {
       <form action="/form" method="post">
         <span>Your query:</span>
@@ -31,10 +49,12 @@ class ExampleApp extends Application {
   }
 
   get("/debug") {
-    header("Content-type", "text/plain")
 
-    "Router: "   + router.toString   + "\n\n" +
+    // text block will force text/plain content type
+    text {
+      "Router: " + router.toString + "\n\n" +
       "Response: " + response.toString + " " + response.get.toMap + "\n\n" +
-      "Request: "  + request.toString  + " " + request.get.toMap + "\n\n"
+      "Request: " + request.toString + " " + request.get.toMap + "\n\n"
+    }
   }
 }
