@@ -1,5 +1,6 @@
-package com.mancmelou.scarlet
+package org.example
 
+import com.mancmelou.scarlet.Application
 import java.util.Calendar
 
 class ExampleApp extends Application {
