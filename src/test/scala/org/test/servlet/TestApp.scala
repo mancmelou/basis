@@ -1,6 +1,6 @@
 package org.test.servlet
 
-import com.mancmelou.scarlet._
+import com.mancmelou.scarlet.Application
 
 class TestApp extends Application {
   get("/") {
