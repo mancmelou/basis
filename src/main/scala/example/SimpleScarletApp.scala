@@ -1,34 +1,26 @@
 /**
- * Your project namespace
+ * And of course, just like everything,
+ * this starts in your project namespace :)
  */
-package org.example
+package org.example.app
 
 /**
- * Import the Application class and you're ready to go!
+ * Import Scarlet's "Application" class and you're ready to go!
  */
 import com.mancmelou.scarlet.Application
 
 /**
- * Also, import any other classes you want to use in your project
- */
-import java.util.Calendar
-
-/**
- * Create a new class that extends Application
+ * Create a new class that extends the Application class.
+ * Now, this class is where your application runs. How exciting!
  */
 class SimpleScarletApp extends Application {
+
   /**
    * This will register "GET /" route.
-   * Every GET request to the "/" URI will
-   * be routed to this block.
+   * Every GET request to the "/" URI will be routed to this block.
    */
   get("/") {
-    header("Content-type", "text/html")
-
-    <h1>It works!</h1>
-    <p><a href="/debug">See debug info</a></p>
-    <p><a href="/form">Test form</a></p>
-    <small>Generated on: { Calendar.getInstance.getTime }</small>
+    "Congratulations! You're running your first Scarlet app."
   }
 
   get("/form") {
@@ -58,3 +50,10 @@ class SimpleScarletApp extends Application {
     }
   }
 }
+
+// TODO
+//
+// make the sample app have more example urls,
+// gradually show more features
+//
+// Fix application class - remove Request and Response shared objects
