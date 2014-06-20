@@ -2,12 +2,12 @@ package com.mancmelou.scarlet
 
 trait ProcessorContext {
   /**
-   * Response option object {@link Router}
+   * Response option object
    */
   protected var response: Option[Response] = None
 
   /**
-   * Request option object {@link Router}
+   * Request option object
    */
   protected var request: Option[Request] = None
 
@@ -59,8 +59,8 @@ trait ProcessorContext {
     header("Content-type", "text/html")
 
     block match {
-      case c: Iterable[Any]  => c.mkString("")
-      case f: (() => String) => f()
+      case c: Iterable[Any] => c.mkString("")
+      case f: (() => Any)   => f().toString
       case _ => block.toString
     }
   }
@@ -76,8 +76,8 @@ trait ProcessorContext {
     header("Content-type", "text/plain")
 
     block match {
-      case c: Iterable[Any]  => c.mkString("")
-      case f: (() => String) => f()
+      case c: Iterable[Any] => c.mkString("")
+      case f: (() => Any)   => f().toString
       case _ => block.toString
     }
   }
