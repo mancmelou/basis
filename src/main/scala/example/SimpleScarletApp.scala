@@ -7,13 +7,13 @@ package org.example.app
 /**
  * Import Scarlet's "Application" class and you're ready to go!
  */
-import com.mancmelou.scarlet.Application
+import org.scarlet.ScarletApp
 
 /**
  * Create a new class that extends the Application class.
  * Now, this class is where your application runs. How exciting!
  */
-class SimpleScarletApp extends Application {
+class SimpleScarletApp extends ScarletApp {
 
   /**
    * This will register "GET /" route.
@@ -41,19 +41,11 @@ class SimpleScarletApp extends Application {
   }
 
   get("/debug") {
-
     // text block will force text/plain content type
     text {
       "Router: " + router.toString + "\n\n" +
-      "Response: " + response.toString + " " + response.get.toMap + "\n\n" +
-      "Request: " + request.toString + " " + request.get.toMap + "\n\n"
+      "Response: " + response.toString + " " + response.value.toMap + "\n\n" +
+      "Request: " + request.toString + " " + request.value.toMap + "\n\n"
     }
   }
 }
-
-// TODO
-//
-// make the sample app have more example urls,
-// gradually show more features
-//
-// Fix application class - remove Request and Response shared objects
