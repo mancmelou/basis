@@ -1,4 +1,4 @@
-package org.scarlet.util
+package org.mydomain.myapp
 
 import org.scarlet.ScarletApp
 
