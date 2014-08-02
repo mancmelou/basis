@@ -20,8 +20,7 @@ class TestApp extends ScarletApp {
   }
 
   get("/:controller/:action/:id") {
-    "Calling " + param("controller") +
-      "." + param("action") + "(" + param("id") + ")"
+    "Calling " + param("controller") + "." + param("action") + "(" + param("id") + ")"
   }
 
   post("/") {
