@@ -1,6 +1,4 @@
-package org.mydomain.myapp
-
-import org.scarlet.ScarletApp
+package org.scarlet
 
 /**
  * Create a new class that extends the ScarletApp class.
