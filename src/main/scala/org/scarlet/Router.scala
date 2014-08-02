@@ -2,7 +2,7 @@ package org.scarlet
 
 import scala.collection.mutable.Map
 import scala.util.matching.Regex
-import com.mancmelou.scarlet.util.PatternExtractor
+import org.scarlet.util.PatternExtractor
 
 class Router extends PatternExtractor {
   /**
@@ -41,11 +41,11 @@ class Router extends PatternExtractor {
    *
    * @param method  Http method
    * @param url     Request URI
-   * @return        {@link Route} object
+   * @return        Route object
    */
   def find(method: String, url: String): Route = {
-    var mappedParams = Map.empty[String, String]
-    val httpMethod   = method.toUpperCase
+    var mappedParams: Map[String, String] = Map.empty[String, String]
+    val httpMethod: String = method.toUpperCase
 
     patterns(httpMethod).foreach { route =>
       if ("/+$".r.replaceAllIn(url, "") == route.url) {
