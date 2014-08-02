@@ -1,4 +1,4 @@
-name := "Basis"
+name := "Scarlet"
 
 version := "1.0"
 
