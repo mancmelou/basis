@@ -22,5 +22,5 @@ war := {
   println("zip -r " + app_name + ".war WEB-INF" !!)
   println("rm -rf WEB-INF" !!)
   println("mv " + app_name + ".war target/" + app_name + ".war" !!)
-  println("Done!")
+  println("Done! File target/" + app_name + ".war is ready to be deployed")
 }
