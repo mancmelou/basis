@@ -28,18 +28,9 @@ trait Servlet extends HttpServlet {
   def render(res: HttpServletResponse): Unit
 
   /**
-   * Servlet GET request handler override
-   *
+   * Servlet service method. All requests will go through
    * @param req
    * @param res
    */
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
-
-  /**
-   * Servlet POST request handler override
-   *
-   * @param req
-   * @param res
-   */
-  override def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
+  override def service(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
 }
