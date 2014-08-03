@@ -128,14 +128,14 @@ abstract class ScarletApp extends Servlet {
           response.value.body = str
         }
         case xml: scala.xml.Elem => {
-          response.value.body = xml.toString
+          response.value.body = xml.toString()
         }
         case collection: Iterable[Any] => {
           response.value.body = collection.mkString("")
         }
         case _ => {
           response.value.status = 404
-          response.value.body = "Route not found! " + req.getRequestURI()
+          response.value.body = "Route not found! " + req.getRequestURI
         }
       }
       render(res)
@@ -150,9 +150,9 @@ abstract class ScarletApp extends Servlet {
    * @return      Return value from the action block
    */
   def dispatch(req: HttpServletRequest, res: HttpServletResponse): Any = {
-    val root  = "^" + req.getSession().getServletContext().getContextPath()
-    val uri   = root.r.replaceAllIn(req.getRequestURI(), "")
-    val route = router.find(req.getMethod(), uri)
+    val root  = "^" + req.getSession.getServletContext.getContextPath
+    val uri   = root.r.replaceAllIn(req.getRequestURI, "")
+    val route = router.find(req.getMethod, uri)
 
     request.withValue(new Request(req, route.params)) {
       route.action()
@@ -168,6 +168,6 @@ abstract class ScarletApp extends Servlet {
     res.setStatus(response.value.status)
     response.value.headers.foreach { case (key, value) => res.addHeader(key, value) }
 
-    res.getWriter().print(response.value.body)
+    res.getWriter.print(response.value.body)
   }
 }
