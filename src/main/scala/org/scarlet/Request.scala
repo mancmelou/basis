@@ -4,35 +4,35 @@ import scala.collection.mutable.Map
 import javax.servlet.http.HttpServletRequest
 import collection.JavaConversions.enumerationAsScalaIterator
 
-class Request(private val request: HttpServletRequest, private val _routeParams: Map[String, String]) {
+class Request(private val request: HttpServletRequest, private val routeParams: Map[String, String]) {
   /**
    * Request headers container
    */
-  private val headers = Map.empty[String, String]
+  private val requestHeaders = Map.empty[String, String]
 
   /**
-   * Request GET and POST params container
+   * Request GET and POST requestParams container
    */
-  private val params  = Map.empty[String, String]
+  private val requestParams = Map.empty[String, String]
 
   /**
-   * Maps servlet request headers
+   * Maps servlet request requestHeaders
    */
   private def mapRequestHeaders(): Unit = {
     for(name <- request.getHeaderNames()) {
-      headers(name.asInstanceOf[String]) = request.getHeader(name.asInstanceOf[String])
+      requestHeaders(name.asInstanceOf[String]) = request.getHeader(name.asInstanceOf[String])
     }
   }
 
   /**
-   * Maps servlet request params
+   * Maps servlet request requestParams
    */
   private def mapRequestParams(): Unit = {
     for(name <- request.getParameterNames()) {
-      params(name.asInstanceOf[String]) = request.getParameter(name.asInstanceOf[String])
+      requestParams(name.asInstanceOf[String]) = request.getParameter(name.asInstanceOf[String])
     }
 
-    params ++= _routeParams
+    requestParams ++= routeParams
   }
 
   /**
@@ -41,7 +41,7 @@ class Request(private val request: HttpServletRequest, private val _routeParams:
    * @param name  Header name
    * @return      Header value
    */
-  def header(name: String): String = headers.getOrElse(name, "")
+  def header(name: String): String = requestHeaders.getOrElse(name, "")
 
   /**
    * Returns the specified param's value
@@ -49,7 +49,7 @@ class Request(private val request: HttpServletRequest, private val _routeParams:
    * @param name  Param name
    * @return      Param value
    */
-  def param(name: String): String = params.getOrElse(name, "")
+  def param(name: String): String = requestParams.getOrElse(name, "")
 
   /**
    * Returns map of the fields stored in this object
@@ -58,8 +58,8 @@ class Request(private val request: HttpServletRequest, private val _routeParams:
    */
   def toMap: Map[String, String] = {
     Map(
-      "headers" -> headers.toString,
-      "params"  -> params.toString
+      "requestHeaders" -> requestHeaders.toString,
+      "requestParams"  -> requestParams.toString
     )
   }
 
