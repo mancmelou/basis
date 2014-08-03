@@ -3,7 +3,7 @@ package org.scarlet
 import javax.servlet.http._
 import scala.util.DynamicVariable
 
-class ScarletApp extends Servlet {
+abstract class ScarletApp extends Servlet {
   /**
    * Router object
    */
@@ -170,20 +170,4 @@ class ScarletApp extends Servlet {
 
     res.getWriter().print(response.value.body)
   }
-
-  /**
-   * Servlet GET request handler override
-   *
-   * @param req
-   * @param res
-   */
-  override def doGet(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
-
-  /**
-   * Servlet POST request handler override
-   *
-   * @param req
-   * @param res
-   */
-  override def doPost(req: HttpServletRequest, res: HttpServletResponse): Unit = process(req, res)
 }
