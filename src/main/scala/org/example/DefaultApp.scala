@@ -11,6 +11,8 @@ class DefaultApp extends Scarlet {
    * Every GET request to the "/" URI will be routed to this block.
    */
   get("/") {
-    "{status: 'OK', message: 'Scarlet app is up and running!!'}"
+    header("Content-type", "text/json")
+
+    "{status: 'OK', message: 'Scarlet app is up and running!', data: []}"
   }
 }
