@@ -91,6 +91,24 @@ abstract class Scarlet extends Servlet {
   }
 
   /**
+   * Returns text to be rendered. A side effect is that the "Content-type" response
+   * header is set to "text/plain"
+   *
+   * @param block   Any
+   * @return        String
+   */
+  def json(block: Any): String = {
+    header("Content-type", "text/json")
+
+    // work in progress
+    block match {
+      case c: Iterable[Any]  => c.mkString("{data:[", ",", "]}")
+      case f: (() => String) => f()
+      case _ => block.toString
+    }
+  }
+
+  /**
    * Defines a GET request handler.
    *
    * @param pattern  Route pattern e.g. "/", "/:user", "/:page/:user"
