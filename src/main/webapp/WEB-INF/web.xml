@@ -5,7 +5,7 @@
     <display-name>Default</display-name>
     <servlet>
         <servlet-name>Default</servlet-name>
-        <servlet-class>org.scarlet.DefaultApp</servlet-class>
+        <servlet-class>org.example.DefaultApp</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Default</servlet-name>
