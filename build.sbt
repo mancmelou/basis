@@ -10,4 +10,4 @@ libraryDependencies += "org.mockito" % "mockito-core" % "1.9.5" % "test"
 
 libraryDependencies += "httpunit" % "httpunit" % "1.7" % "test"
 
-tomcat(port = 12345)
+tomcat(port = 8900)
