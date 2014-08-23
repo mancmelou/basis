@@ -3,7 +3,7 @@ package org.scarlet
 import javax.servlet.http._
 import scala.util.DynamicVariable
 
-abstract class ScarletApp extends Servlet {
+abstract class Scarlet extends Servlet {
   /**
    * Router object
    */
@@ -138,6 +138,7 @@ abstract class ScarletApp extends Servlet {
           response.value.body = "Route not found! " + req.getRequestURI
         }
       }
+
       render(res)
     }
   }

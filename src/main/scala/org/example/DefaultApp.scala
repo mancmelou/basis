@@ -1,26 +1,16 @@
 package org.example
 
-import org.scarlet.ScarletApp
+import org.scarlet.Scarlet
 
 /**
- * Create a new class that extends the ScarletApp class.
+ * Create a new class that extends the Scarlet class.
  */
-sealed class DefaultApp extends ScarletApp {
+class DefaultApp extends Scarlet {
   /**
    * This will register "GET /" route.
    * Every GET request to the "/" URI will be routed to this block.
    */
   get("/") {
-    <style type="text/css">
-      <![CDATA[
-      #title {
-        color: #FF2400;
-        font-family: Georgia;
-        font-size: 12px;
-        text-align: center;
-      }
-      ]]>
-    </style>
-    <div id="title">Awesome! You're running your first Scarlet app!</div>
+    "{status: 'OK', message: 'Scarlet app is up and running!!'}"
   }
 }
