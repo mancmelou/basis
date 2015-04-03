@@ -5,7 +5,7 @@ Minimalistic web framework like Sinatra, Express or Scalatra.
 Example app
 --
 ```scala 
-package org.example
+package org.myapp
 
 import org.scarlet.Scarlet
 
