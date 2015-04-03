@@ -1,6 +1,6 @@
 Scarlet
 ==
-Minimalistic web framework like Sinatra, Express or Scalatra running on Servlet build to get you started in no time.
+Minimalistic web framework like Sinatra, Express or Scalatra running on Servlet.
 
 Example app
 --
